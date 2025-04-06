@@ -1,5 +1,5 @@
 # KN-Python
-Team-B8 | Hotelreservierungssystem
+Team-A6 | Hotelreservierungssystem
 
 ## Autoren
 
