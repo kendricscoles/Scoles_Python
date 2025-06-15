@@ -1,0 +1,17 @@
+from __future__ import annotations
+import model
+from data_access.base_data_access import BaseDataAccess
+
+class FacilityDataAccess(BaseDataAccess):
+    def __init__(self, db_path: str = None):
+        super().__init__(db_path)
+
+    def create_new_facility(self, facility_name: str) -> model.Facility:
+        sql = "INSERT INTO Facilities (facility_name) VALUES (?)"
+        last_row_id, _ = self.execute(sql, (facility_name,))
+        return model.Facility(last_row_id, facility_name)
+
+    def read_facility_by_id(self, facility_id: int) -> model.Facility | None:
+        sql = "SELECT facility_id, facility_name FROM Facilities WHERE facility_id = ?"
+        result = self.fetchone(sql, (facility_id,))
+        return model.Facility(*result) if result else None
