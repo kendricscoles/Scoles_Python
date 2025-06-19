@@ -29,3 +29,30 @@ class HotelDataAccess(BaseDataAccess):
         """
         rows = self.fetchall(sql)
         return [Hotel(row[0], row[1], Address.from_row(row[3:]), row[2]) for row in rows]
+
+    def create_hotel(self, name: str, stars: int, address_id: int) -> Hotel:
+    sql = "INSERT INTO Hotel (name, stars, address_id) VALUES (?, ?, ?)"
+    params = (name, stars, address_id)
+    hotel_id, _ = self.execute(sql, params)
+    from model.address import Address
+    return Hotel(hotel_id, name, Address(address_id, "", "", ""), stars)
+
+    def delete_hotel_by_id(self, hotel_id: int) -> bool:
+    sql = "DELETE FROM Hotel WHERE hotel_id = ?"
+    _, rows = self.execute(sql, (hotel_id,))
+    return rows > 0
+
+    def update_hotel_name(self, hotel_id: int, new_name: str) -> bool:
+    sql = "UPDATE Hotel SET name = ? WHERE hotel_id = ?"
+    _, rows = self.execute(sql, (new_name, hotel_id))
+    return rows > 0
+
+    def update_hotel_stars(self, hotel_id: int, stars: int) -> bool:
+    sql = "UPDATE Hotel SET stars = ? WHERE hotel_id = ?"
+    _, rows = self.execute(sql, (stars, hotel_id))
+    return rows > 0
+
+    def update_hotel_address(self, hotel_id: int, address_id: int) -> bool:
+    sql = "UPDATE Hotel SET address_id = ? WHERE hotel_id = ?"
+    _, rows = self.execute(sql, (address_id, hotel_id))
+    return rows > 0
