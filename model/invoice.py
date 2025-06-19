@@ -21,7 +21,8 @@ class Invoice:
 
     @classmethod
     def from_row(cls, row, booking: Booking):
-        return cls(*row[:4], booking=booking)
+        invoice_id, _booking_id, issue_date, total_amount = row
+        return cls(invoice_id, booking, issue_date, total_amount)
 
     def to_dict(self):
         return {
