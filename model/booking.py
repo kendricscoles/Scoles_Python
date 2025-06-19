@@ -1,47 +1,46 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
-from datetime import date
-
-if TYPE_CHECKING:
-   from model.guest import Guest
-   from model.room import Room
+from model.guest import Guest
+from model.room import Room
 
 class Booking:
-   def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, guest: Guest, room: Room):
-       if not booking_id or not isinstance(booking_id, int):
-           raise ValueError("booking_id must be an integer")
-       if not isinstance(check_in_date, date):
-           raise ValueError("check_in_date must be a date object")
-       if not isinstance(check_out_date, date):
-           raise ValueError("check_out_date must be a date object")
-       if check_in_date >= check_out_date:
-           raise ValueError("check_in_date must be before check_out_date")
-       
-       self.__booking_id = booking_id
-       self.__check_in_date = check_in_date
-       self.__check_out_date = check_out_date
-       self.__guest = guest
-       self.__room = room
-       
-   @property
-   def booking_id(self): return self.__booking_id
+    def __init__(self, booking_id: int, guest: Guest, room: Room,
+                 check_in: str, check_out: str, is_cancelled: bool = False, total_amount: float = 0.0):
+        self.__booking_id = booking_id
+        self.__guest = guest
+        self.__room = room
+        self.__check_in = check_in
+        self.__check_out = check_out
+        self.__is_cancelled = is_cancelled
+        self.__total_amount = total_amount
 
-   @property
-   def check_in_date(self): return self.__check_in_date
-   @check_in_date.setter
-   def check_in_date(self, value): self.__check_in_date = value
+    @property
+    def booking_id(self): return self.__booking_id
+    @property
+    def guest(self): return self.__guest
+    @property
+    def room(self): return self.__room
+    @property
+    def check_in(self): return self.__check_in
+    @property
+    def check_out(self): return self.__check_out
+    @property
+    def is_cancelled(self): return self.__is_cancelled
+    @property
+    def total_amount(self): return self.__total_amount
 
-   @property
-   def check_out_date(self): return self.__check_out_date
-   @check_out_date.setter
-   def check_out_date(self, value): self.__check_out_date = value
+    def __repr__(self):
+        return f"<Booking #{self.booking_id} | {self.check_in} - {self.check_out}>"
 
-   @property
-   def guest(self): return self.__guest
-   @guest.setter
-   def guest(self, value): self.__guest = value
+    @classmethod
+    def from_row(cls, row, guest: Guest, room: Room):
+        return cls(*row[:6], guest=guest, room=room)
 
-   @property
-   def room(self): return self.__room
-   @room.setter
-   def room(self, value): self.__room = value
+    def to_dict(self):
+        return {
+            "booking_id": self.booking_id,
+            "guest": self.guest.to_dict(),
+            "room": self.room.to_dict(),
+            "check_in": self.check_in,
+            "check_out": self.check_out,
+            "is_cancelled": self.is_cancelled,
+            "total_amount": self.total_amount
+        }
