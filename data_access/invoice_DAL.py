@@ -16,11 +16,11 @@ class InvoiceDataAccess(BaseDataAccess):
         row = self.fetchone(sql, (invoice_id,))
         if row:
             booking = self.booking_dal.read_booking_by_id(row[1])
-            return Invoice(row[0], booking, row[2], row[3])
+            return Invoice(row[0], booking, row[2], row[3])  # issue_date is a string
         return None
 
     def create_invoice(self, booking: Booking, total_amount: float) -> Invoice:
-        #simpleexplanation: Inserts a new invoice linked to a booking
+        #simpleexplanation: Inserts a new invoice and returns the full Invoice object
         sql = """
         INSERT INTO Invoice (booking_id, total_amount)
         VALUES (?, ?)
@@ -28,7 +28,7 @@ class InvoiceDataAccess(BaseDataAccess):
         params = (booking.booking_id, total_amount)
         invoice_id, _ = self.execute(sql, params)
 
-        # Fetch issue_date from DB to include in Invoice object
+        # Fetch issue_date from database
         row = self.fetchone(
             "SELECT issue_date FROM Invoice WHERE invoice_id = ?", (invoice_id,)
         )
