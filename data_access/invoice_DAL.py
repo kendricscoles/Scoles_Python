@@ -17,3 +17,12 @@ class InvoiceDataAccess(BaseDataAccess):
             booking = self.booking_dal.read_booking_by_id(row[1])
             return Invoice(row[0], booking, row[2], row[3])
         return None
+
+    def create_invoice(self, booking: Booking, total_amount: float) -> Invoice:
+    sql = """
+    INSERT INTO Invoice (booking_id, total_amount)
+    VALUES (?, ?)
+    """
+    params = (booking.booking_id, total_amount)
+    invoice_id, _ = self.execute(sql, params)
+    return Invoice(invoice_id, booking, issue_date="(now)", total_amount=total_amount)
