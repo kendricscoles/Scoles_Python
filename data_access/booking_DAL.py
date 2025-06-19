@@ -20,3 +20,11 @@ class BookingDataAccess(BaseDataAccess):
             room = self.room_dal.read_room_by_id(row[2])
             return Booking(row[0], guest, room, row[3], row[4], bool(row[5]), row[6])
         return None
+    def create_booking(self, guest: Guest, room: Room, check_in: str, check_out: str, total_amount: float) -> Booking:
+    sql = """
+    INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, total_amount)
+    VALUES (?, ?, ?, ?, ?)
+    """
+    params = (guest.guest_id, room.room_id, check_in, check_out, total_amount)
+    booking_id, _ = self.execute(sql, params)
+    return Booking(booking_id, guest, room, check_in, check_out, False, total_amount)
