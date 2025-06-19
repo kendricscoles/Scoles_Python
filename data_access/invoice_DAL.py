@@ -32,6 +32,6 @@ class InvoiceDataAccess(BaseDataAccess):
         row = self.fetchone(
             "SELECT issue_date FROM Invoice WHERE invoice_id = ?", (invoice_id,)
         )
-        issue_date = row[0] if row else "(unknown)"
+        issue_date = row[0].decode("utf-8") if isinstance(row[0], bytes) else row[0]
 
         return Invoice(invoice_id, booking, issue_date, total_amount)
