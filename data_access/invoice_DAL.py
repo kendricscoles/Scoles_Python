@@ -9,6 +9,7 @@ class InvoiceDataAccess(BaseDataAccess):
         self.booking_dal = BookingDataAccess(db_path)
 
     def read_invoice_by_id(self, invoice_id: int) -> Invoice | None:
+        #simpleexplanation: Fetches invoice with linked booking object
         sql = """
         SELECT invoice_id, booking_id, issue_date, total_amount
         FROM Invoice WHERE invoice_id = ?
@@ -16,11 +17,12 @@ class InvoiceDataAccess(BaseDataAccess):
         row = self.fetchone(sql, (invoice_id,))
         if row:
             booking = self.booking_dal.read_booking_by_id(row[1])
-            return Invoice(row[0], booking, row[2], row[3])  # issue_date is a string
+            issue_date = row[2].decode("utf-8") if isinstance(row[2], bytes) else row[2]
+            return Invoice(row[0], booking, issue_date, row[3])
         return None
 
     def create_invoice(self, booking: Booking, total_amount: float) -> Invoice:
-        #simpleexplanation: Inserts a new invoice and returns the full Invoice object
+        #simpleexplanation: Creates a new invoice and fetches issue_date from DB
         sql = """
         INSERT INTO Invoice (booking_id, total_amount)
         VALUES (?, ?)
@@ -28,7 +30,7 @@ class InvoiceDataAccess(BaseDataAccess):
         params = (booking.booking_id, total_amount)
         invoice_id, _ = self.execute(sql, params)
 
-        # Fetch issue_date from database
+        # Fetch issue_date
         row = self.fetchone(
             "SELECT issue_date FROM Invoice WHERE invoice_id = ?", (invoice_id,)
         )
