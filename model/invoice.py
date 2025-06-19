@@ -2,9 +2,12 @@ from model.booking import Booking
 
 class Invoice:
     def __init__(self, invoice_id: int, booking: Booking, issue_date: str, total_amount: float):
+        # DO NOT cast issue_date to int – it must stay a string
         self.__invoice_id = invoice_id
         self.__booking = booking
-        self.__issue_date = issue_date
+        self.__issue_date = (
+            issue_date.decode("utf-8") if isinstance(issue_date, bytes) else issue_date
+        )
         self.__total_amount = total_amount
 
     @property
@@ -22,11 +25,17 @@ class Invoice:
     @classmethod
     def from_row(cls, row, booking: Booking):
         invoice_id, _booking_id, issue_date, total_amount = row
+        # Decode here too just in case
+        issue_date = issue_date.decode("utf-8") if isinstance(issue_date, bytes) else issue_date
         return cls(invoice_id, booking, issue_date, total_amount)
 
     def to_dict(self):
         return {
             "invoice_id": self.invoice_id,
+            "booking": self.booking.to_dict(),
+            "issue_date": self.issue_date,
+            "total_amount": self.total_amount
+        }
             "booking": self.booking.to_dict(),
             "issue_date": self.issue_date,
             "total_amount": self.total_amount
