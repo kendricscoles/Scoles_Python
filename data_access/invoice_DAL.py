@@ -9,7 +9,7 @@ class InvoiceDataAccess(BaseDataAccess):
         self.booking_dal = BookingDataAccess(db_path)
 
     def read_invoice_by_id(self, invoice_id: int) -> Invoice | None:
-        #simpleexplanation: Fetches invoice with linked booking object
+        #simpleexplanation: Fetches invoice with linked booking and issue date
         sql = """
         SELECT invoice_id, booking_id, issue_date, total_amount
         FROM Invoice WHERE invoice_id = ?
@@ -17,12 +17,15 @@ class InvoiceDataAccess(BaseDataAccess):
         row = self.fetchone(sql, (invoice_id,))
         if row:
             booking = self.booking_dal.read_booking_by_id(row[1])
-            issue_date = row[2].decode("utf-8") if isinstance(row[2], bytes) else row[2]
+            issue_date = row[2]
+            # Fix: decode bytes to string if necessary
+            if isinstance(issue_date, bytes):
+                issue_date = issue_date.decode("utf-8")
             return Invoice(row[0], booking, issue_date, row[3])
         return None
 
     def create_invoice(self, booking: Booking, total_amount: float) -> Invoice:
-        #simpleexplanation: Creates a new invoice and fetches issue_date from DB
+        #simpleexplanation: Inserts a new invoice, retrieves the issue date, and returns an Invoice object
         sql = """
         INSERT INTO Invoice (booking_id, total_amount)
         VALUES (?, ?)
@@ -30,10 +33,11 @@ class InvoiceDataAccess(BaseDataAccess):
         params = (booking.booking_id, total_amount)
         invoice_id, _ = self.execute(sql, params)
 
-        # Fetch issue_date
-        row = self.fetchone(
-            "SELECT issue_date FROM Invoice WHERE invoice_id = ?", (invoice_id,)
-        )
-        issue_date = row[0].decode("utf-8") if isinstance(row[0], bytes) else row[0]
+        # Fetch the issue date for the new invoice
+        sql_date = "SELECT issue_date FROM Invoice WHERE invoice_id = ?"
+        row = self.fetchone(sql_date, (invoice_id,))
+        issue_date = row[0]
+        if isinstance(issue_date, bytes):
+            issue_date = issue_date.decode("utf-8")
 
         return Invoice(invoice_id, booking, issue_date, total_amount)
