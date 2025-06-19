@@ -1,21 +1,19 @@
-from __future__ import annotations
-import model
+from model.invoice import Invoice
 from data_access.base_data_access import BaseDataAccess
+from data_access.booking_DAL import BookingDataAccess
 
 class InvoiceDataAccess(BaseDataAccess):
     def __init__(self, db_path: str = None):
         super().__init__(db_path)
+        self.booking_dal = BookingDataAccess(db_path)
 
-    def create_new_invoice(self, booking: model.Booking, issue_date: str, total_amount: float) -> model.Invoice:
-        sql = "INSERT INTO Invoice (booking_id, issue_date, total_amount) VALUES (?, ?, ?)"
-        params = (booking.booking_id, issue_date, total_amount)
-        last_row_id, _ = self.execute(sql, params)
-        return model.Invoice(last_row_id, booking, issue_date, total_amount)
-
-    def read_invoice_by_id(self, invoice_id: int) -> model.Invoice | None:
-        sql = "SELECT invoice_id, booking_id, issue_date, total_amount FROM Invoice WHERE invoice_id = ?"
-        result = self.fetchone(sql, (invoice_id,))
-        if result:
-            iid, bid, issue_date, total = result
-            return model.Invoice(iid, model.Booking(bid), issue_date, total)
+    def read_invoice_by_id(self, invoice_id: int) -> Invoice | None:
+        sql = """
+        SELECT invoice_id, booking_id, issue_date, total_amount
+        FROM Invoice WHERE invoice_id = ?
+        """
+        row = self.fetchone(sql, (invoice_id,))
+        if row:
+            booking = self.booking_dal.read_booking_by_id(row[1])
+            return Invoice(row[0], booking, row[2], row[3])
         return None
