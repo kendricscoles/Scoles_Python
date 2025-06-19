@@ -11,13 +11,20 @@ class Invoice:
         self.__total_amount = total_amount
 
     @property
-    def invoice_id(self): return self.__invoice_id
+    def invoice_id(self): 
+        return self.__invoice_id
+
     @property
-    def booking(self): return self.__booking
+    def booking(self): 
+        return self.__booking
+
     @property
-    def issue_date(self): return self.__issue_date
+    def issue_date(self): 
+        return self.__issue_date
+
     @property
-    def total_amount(self): return self.__total_amount
+    def total_amount(self): 
+        return self.__total_amount
 
     def __repr__(self):
         return f"<Invoice #{self.invoice_id} | CHF {self.total_amount:.2f}>"
@@ -25,17 +32,12 @@ class Invoice:
     @classmethod
     def from_row(cls, row, booking: Booking):
         invoice_id, _booking_id, issue_date, total_amount = row
-        # Decode here too just in case
         issue_date = issue_date.decode("utf-8") if isinstance(issue_date, bytes) else issue_date
         return cls(invoice_id, booking, issue_date, total_amount)
 
     def to_dict(self):
         return {
             "invoice_id": self.invoice_id,
-            "booking": self.booking.to_dict(),
-            "issue_date": self.issue_date,
-            "total_amount": self.total_amount
-        }
             "booking": self.booking.to_dict(),
             "issue_date": self.issue_date,
             "total_amount": self.total_amount
