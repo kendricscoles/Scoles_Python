@@ -32,3 +32,9 @@ class BookingDataAccess(BaseDataAccess):
         params = (guest.guest_id, room.room_id, check_in, check_out, total_amount)
         booking_id, _ = self.execute(sql, params)
         return Booking(booking_id, guest, room, check_in, check_out, False, total_amount)
+
+    def cancel_booking_by_id(self, booking_id: int) -> bool:
+        #simpleexplanation: Marks a booking as cancelled (is_cancelled = 1)
+        sql = "UPDATE Booking SET is_cancelled = 1 WHERE booking_id = ?"
+        _, rows_affected = self.execute(sql, (booking_id,))
+        return rows_affected > 0
