@@ -1,21 +1,22 @@
-from __future__ import annotations
-import model
+from model.booking import Booking
 from data_access.base_data_access import BaseDataAccess
+from data_access.guest_DAL import GuestDataAccess
+from data_access.room_DAL import RoomDataAccess
 
 class BookingDataAccess(BaseDataAccess):
     def __init__(self, db_path: str = None):
         super().__init__(db_path)
+        self.guest_dal = GuestDataAccess(db_path)
+        self.room_dal = RoomDataAccess(db_path)
 
-    def create_new_booking(self, guest: model.Guest, room: model.Room, check_in: str, check_out: str, is_cancelled: bool, total: float) -> model.Booking:
-        sql = "INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount) VALUES (?, ?, ?, ?, ?, ?)"
-        params = (guest.guest_id, room.room_id, check_in, check_out, is_cancelled, total)
-        last_row_id, _ = self.execute(sql, params)
-        return model.Booking(last_row_id, guest, room, check_in, check_out, is_cancelled, total)
-
-    def read_booking_by_id(self, booking_id: int) -> model.Booking | None:
-        sql = "SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount FROM Booking WHERE booking_id = ?"
-        result = self.fetchone(sql, (booking_id,))
-        if result:
-            bid, gid, rid, ci, co, cancelled, total = result
-            return model.Booking(bid, model.Guest(gid), model.Room(rid), ci, co, cancelled, total)
+    def read_booking_by_id(self, booking_id: int) -> Booking | None:
+        sql = """
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount
+        FROM Booking WHERE booking_id = ?
+        """
+        row = self.fetchone(sql, (booking_id,))
+        if row:
+            guest = self.guest_dal.read_guest_by_id(row[1])
+            room = self.room_dal.read_room_by_id(row[2])
+            return Booking(row[0], guest, room, row[3], row[4], bool(row[5]), row[6])
         return None
