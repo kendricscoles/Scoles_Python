@@ -1,9 +1,9 @@
 # KN-Python
-Team-A6 | Hotelreservierungssystem
+Team-A6 | Hotel Reservation System
 
-## Autoren
+## Author
 
-Kendric Scoles
+Kendric ScolesFHNW - Bachelor in Business Artificial IntelligenceCourse: Anwendungsentwicklung mit Python
 
 
 
@@ -11,41 +11,207 @@ Kendric Scoles
 
 https://deepnote.com/workspace/Fachhochschule-Nordwestschweiz-Bachelor-Business-AI-8a7f9eed-981d-4902-9a28-e7a9a4e7820c/project/AnwendungsentwicklungmitPythonScolesLardinois-Duplicate-87d0d38b-da6f-4a15-8815-f6371a6d7983/notebook/Notebook-1-08f61a8664af47b4b24dfbb243c4cea2
 
+📚 Project Overview
 
+The goal of this project was to develop a fully functional hotel reservation system using Python and SQLite. The system is designed to meet the core functional needs of a hotel business: allowing guests to search for hotels and available rooms, create bookings, receive invoices, and cancel bookings. Furthermore, the system enables administrators to manage hotel data (add, update, delete hotels).
 
-# User Stories
+I adopted a clean 4-layer architecture to ensure modularity, maintainability, and testability, and followed a step-by-step user-story-driven development process.
 
-## Minimale User Stories
+🔹 Step-by-Step Development Process
 
-Als Gast möchte ich die verfügbaren Hotels durchsuchen, damit ich dasjenige auswählen kann, welches meinen Wünschen entspricht. Wünsche sind: 1.1. Ich möchte alle Hotels in einer Stadt durchsuchen, damit ich das Hotel nach meinem bevorzugten Standort (Stadt) auswählen kann. 1.2. Ich möchte alle Hotels in einer Stadt nach der Anzahl der Sterne (z.B. mindestens 4 Sterne) durchsuchen. 1.3. Ich möchte alle Hotels in einer Stadt durchsuchen, die Zimmer haben, die meiner Gästezahl entsprechen (nur 1 Zimmer pro Buchung). 1.4. Ich möchte alle Hotels in einer Stadt durchsuchen, die während meines Aufenthaltes ("von" (check_in_date) und "bis" (check_out_date)) Zimmer zur Verfügung haben, damit ich nur relevante Ergebnisse sehe. 1.5. Ich möchte Wünsche kombinieren können, z.B. die verfügbaren Zimmer zusammen mit meiner Gästezahl und der mindest Anzahl Sterne. 1.6. Ich möchte die folgenden Informationen pro Hotel sehen: Name, Adresse, Anzahl der Sterne.
-Als Gast möchte ich Details zu verschiedenen Zimmertypen (Single, Double, Suite usw.), die in einem Hotel verfügbar sind, sehen, einschliesslich der maximalen Anzahl von Gästen für dieses Zimmer, Beschreibung, Preis und Ausstattung, um eine fundierte Entscheidung zu treffen. 2.1. Ich möchte die folgenden Informationen pro Zimmer sehen: Zimmertyp, max. Anzahl der Gäste, Beschreibung, Ausstattung, Preis pro Nacht und Gesamtpreis. 2.2. Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von – bis) spezifiziert habe.
-Als Admin des Buchungssystems möchte ich die Möglichkeit haben, Hotelinformationen zu pflegen, um aktuelle Informationen im System zu haben. 3.1. Ich möchte neue Hotels zum System hinzufügen 3.2. Ich möchte Hotels aus dem System entfernen 3.3. Ich möchte die Informationen bestimmter Hotels aktualisieren, z. B. den Namen, die Sterne usw.
-Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen.
-Als Gast möchte ich nach meinem Aufenthalt eine Rechnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der «Invoice» Tabelle hinzu.
-Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hint: Sorgt für die entsprechende Invoice.
-Als Gast möchte ich eine dynamische Preisgestaltung auf der Grundlage der Nachfrage sehen, damit ich ein Zimmer zum besten Preis buchen kann. Hint: Wendet in der Hochsaison höhere und in der Nebensaison niedrigere Tarife an.
-Als Admin des Buchungssystems möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht zu erhalten.
-Als Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
-Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertypen, Einrichtungen, und Preise in Echtzeit zu aktualisieren, damit das Backend-System aktuelle Informationen hat. Hint: Stammdaten sind alle Daten, die nicht von anderen Daten abhängen.
-User Stories mit DB-Schemaänderung
+1. Initial Planning
 
-## Mindestens zwei der folgenden User Stories auswählen:
+Defined the core functionalities needed by both guests and hotel admins
 
-Als Admin möchte ich alle Buchungen bearbeiten können, um fehlende Informationen zu ergänzen (z.B. Telefonnummer).
-Als Gast möchte ich auf meine Buchungshistorie zuzugreifen ("lesen"), damit ich meine kommenden Reservierungen verwalten kann. 2.1. Die Anwendungsfälle für meine Buchungen sind "neu/erstellen", "ändern/aktualisieren", "stornieren/löschen".
-Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
-Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
-Als Gast möchte ich für jeden Aufenthalt Treuepunkte sammeln, die ich dann für Ermässigungen einlösen kann. Hint: Nur häufige Gäste sollten Treuepunkte erhalten. Definieren Sie eine Regel, um häufige Gäste zu identifizieren.
-Als Gast möchte ich meine Buchung mit der von mir bevorzugten Zahlungsmethode bezahlen, damit ich meine Reservierung abschliessen kann.
-User Stories mit Datenvisualisierung
+Designed a class diagram in Visual Paradigm with all required entities and relationships
 
-## Eine der folgenden User Stories auswählen:
+2. Project Structure Setup
 
-Als Admin möchte ich die Belegungsraten für jeden Zimmertyp in meinem Hotel sehen, damit ich weiss, welche Zimmer am beliebtesten sind und ich meine Buchungsstrategien optimieren kann. Hint: Wählt ein geeignetes Diagramm, um die Auslastung nach Zimmertyp darzustellen (z. B. wie oft jeder Zimmertyp gebucht wird).
-Als Admin möchte ich eine Aufschlüsselung der demografischen Merkmale meiner Gäste sehen, damit ich gezieltes Marketing planen kann. Hint: Wählt ein geeignetes Diagramm, um die Verteilung der Gäste nach verschiedenen Merkmalen darzustellen (z. B. Altersspanne, Nationalität, wiederkehrende Gäste). Möglicherweise müssen Sie der Tabelle „Gäste“ einige Spalten hinzufügen.
-Optionale User Stories
+Created a GitHub repository (Scoles_Python)
 
-Als Admin möchte ich die Gesamteinnahmen meines Hotels sehen, damit ich die finanzielle Leistung des Hotels analysieren kann. 1.1. Zeigt die Gesamteinnahmen (Revenue) an, die sich aus allen Buchungen für einen bestimmten Zeitraum ergeben. 1.2. Eine zeitliche Aufschlüsselung (z. B. Umsatz nach Monat, Quartal, Jahr) bereitstellen. Hint: Füge eine Trendlinie ein, um zu veranschaulichen, wie sich die Einnahmen im Laufe der Zeit verändern.
-Als Gastnutzer möchte ich die Details meiner Reservierung in einer lesbaren Form erhalten (z.B. die Reservierung in einer dauerhaften Datei speichern), damit ich meine Buchung später überprüfen kann. Hint: Erzeugt eine «booking.txt»-Datei oder verwendet die Python-Bibliothek «fpdf» oder eine ähnliche Library, um eine PDF-Version zu erzeugen.
-Als Gastnutzer möchte ich eine Karte mit Zoom- und Filterfunktion sehen können, welche Sehenswürdigkeiten oder Restaurants in der Nähe meines gebuchten Hotels liegen, um meine Aufenthaltsplanung zu erleichtern. Hint: Verwende die Python-Bibliothek «geopandas» oder eine ähnliche.
-Als Gastnutzer möchte ich ein Zimmer buchen und eine Buchungsbestätigung mit allen Details per E-Mail erhalten, um einen verbindlichen Nachweis meiner Reservierung zu haben. Hint: Verwende die Python-Bibliothek «smtplib» oder eine ähnliche.
+Organized code into subfolders:
+
+model/: Data models for Hotel, Room, Guest, etc.
+
+data_access/: DAL files with SQL logic
+
+business_logic/: Business functionality split by user story
+
+database/: SQLite file used for data persistence
+
+3. Database Design & Setup
+
+The database schema was provided by the course instructors and served as the foundation for the project. With the exception of the room_facilities table—which was intentionally excluded due to its irrelevance to the defined user stories—no structural changes were made to the database. All development was carried out using the original schema.
+
+4. Model Layer Development (model/)
+
+Wrote one Python class per entity (e.g. Hotel, Room, Guest, Booking...)
+
+Added full validation, type safety, private attributes, property decorators
+
+Each class has from_row(), to_dict(), and __repr__() methods
+
+Example:
+
+class Room:
+    def __init__(...):
+        ...
+    def to_dict(self): ...
+    def from_row(cls, row): ...
+
+5. Data Access Layer (data_access/)
+
+Created a base class BaseDataAccess to handle DB connection, cursor management, error handling
+
+For each entity, a matching DAL class was created (e.g. HotelDataAccess, BookingDataAccess, etc.)
+
+Each DAL class supports:
+
+read_by_id()
+
+read_all()
+
+create_*()
+
+update_*()
+
+delete_*()
+
+Special care taken to avoid SQL injection (parameterized queries)
+
+6. Business Logic Layer (business_logic/)
+
+One logic file per user story
+
+Examples:
+
+hotel_search_logic.py: filtering by city, stars, availability
+
+invoice_logic.py: creating and displaying invoices
+
+booking_cancelation_logic.py: canceling a booking by setting is_cancelled = 1
+
+7. User Story Implementation
+
+Each story was implemented in the logic layer and tested through notebook interfaces. Detailed below:
+
+User Stories Implementation
+
+✅ User Story 1: Hotel Search
+
+"As a guest, I want to search for hotels by city, stars, and availability."
+
+Combined filters: city (case insensitive), star rating, guest capacity, and availability
+
+Business logic: hotel_search_logic.py
+
+DAL: HotelDataAccess, RoomDataAccess, RoomTypeDataAccess
+
+Output: list of hotels with address and star rating
+
+✅ User Story 2: Room Details
+
+"As a guest, I want to view room types and pricing before booking."
+
+Room type and max guest info is retrieved via RoomTypeDataAccess
+
+Rooms filtered for selected date range
+
+Prices per night included
+
+Business logic: room_availability_logic.py
+
+✅ User Story 3: Admin Hotel Management
+
+"As an admin, I want to be able to add, edit, and delete hotels."
+
+CRUD methods implemented in HotelDataAccess
+
+Logic includes:
+
+create_hotel() with address ID
+
+update_hotel_name()
+
+update_hotel_stars()
+
+delete_hotel_by_id()
+
+✅ User Story 4: Room Booking
+
+"As a guest, I want to book a room for my stay."
+
+Checks if the room is free between check_in and check_out
+
+Adds new entry to Booking table
+
+Total amount stored
+
+Booking model tracks guest, room, dates, and price
+
+✅ User Story 5: Invoice Generation
+
+"As a guest, I want to receive an invoice after my stay."
+
+Invoice created after booking with create_invoice()
+
+Issue date retrieved from database (issue_date field)
+
+Bug fixed: removed detect_types=sqlite3.PARSE_DECLTYPES to avoid ValueError
+
+Output: printable invoice with booking info, guest, room, total, and date
+
+✅ User Story 6: Cancel Booking
+
+"As a guest, I want to cancel a booking if my plans change."
+
+Cancel logic sets is_cancelled = 1
+
+SQL logic handled in booking_DAL.py
+
+Business logic in booking_cancelation_logic.py
+
+Prevents cancelled bookings from blocking future availability
+
+❌ Troubleshooting & Lessons Learned
+
+Byte String Errors
+
+Problem: b'2025-06-20 14:34:14' caused ValueError
+
+Fix: .decode("utf-8") used in model classes to convert bytes to strings
+
+SQLite Date Casting Errors
+
+Problem: detect_types=sqlite3.PARSE_DECLTYPES forced SQLite to cast timestamps as date
+
+Fix: Removed this option from _connect() in BaseDataAccess
+
+Deepnote & Import Paths
+
+Problem: ModuleNotFoundError in Deepnote due to relative imports
+
+Fix: sys.path.append("/root/work/Scoles_Python") added in every test cell
+
+Model-DAL Compatibility
+
+Models used from_row() and to_dict() to cleanly map to SQL rows
+
+Made logic layer much easier to test and reuse
+
+🎯 Conclusion
+
+This project was an in-depth introduction to real-world software architecture. The layered structure, combined with user-story-driven planning, ensured clarity and maintainability. Working through real bugs (like SQLite datetime parsing) also built deep debugging experience.
+
+🌐 Future Improvements
+
+Add user login and authentication
+
+UI frontend with Flask, Django, or Streamlit
+
+Export invoices as PDF
+
+Track invoice payment status
+
+Admin dashboard to show real-time room availability and revenue
+
