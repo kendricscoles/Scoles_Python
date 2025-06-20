@@ -3,7 +3,6 @@ from model.booking import Booking
 
 DB_PATH = "/root/work/Scoles_Python/database/hotel_reservation_sample.db"
 
-#simpleexplanation: Creates an invoice from a booking and total price
 def create_invoice(booking_id: int) -> Invoice | None:
     from data_access.booking_DAL import BookingDataAccess
     from data_access.invoice_DAL import InvoiceDataAccess
@@ -18,7 +17,6 @@ def create_invoice(booking_id: int) -> Invoice | None:
 
     return invoice_dal.create_invoice(booking, booking.total_amount)
 
-#simpleexplanation: Displays a simple invoice summary
 def display_invoice(invoice: Invoice):
     print("📄 INVOICE")
     print(f"Invoice ID: {invoice.invoice_id}")
@@ -26,4 +24,4 @@ def display_invoice(invoice: Invoice):
     print(f"Room: {invoice.booking.room.room_number}")
     print(f"Stay: {invoice.booking.check_in} to {invoice.booking.check_out}")
     print(f"Total: CHF {invoice.total_amount:.2f}")
-    print(f"Issued: {invoice.issue_date}")
+    print(f"Issue Date: {invoice.issue_date}")
