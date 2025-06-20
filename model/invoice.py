@@ -2,7 +2,7 @@ from model.booking import Booking
 
 class Invoice:
     def __init__(self, invoice_id: int, booking: Booking, issue_date: str, total_amount: float):
-        # DO NOT cast issue_date to int – it must stay a string
+        # Defensive decode: fix any b'' string bugs
         self.__invoice_id = invoice_id
         self.__booking = booking
         self.__issue_date = (
@@ -11,20 +11,13 @@ class Invoice:
         self.__total_amount = total_amount
 
     @property
-    def invoice_id(self): 
-        return self.__invoice_id
-
+    def invoice_id(self): return self.__invoice_id
     @property
-    def booking(self): 
-        return self.__booking
-
+    def booking(self): return self.__booking
     @property
-    def issue_date(self): 
-        return self.__issue_date
-
+    def issue_date(self): return self.__issue_date
     @property
-    def total_amount(self): 
-        return self.__total_amount
+    def total_amount(self): return self.__total_amount
 
     def __repr__(self):
         return f"<Invoice #{self.invoice_id} | CHF {self.total_amount:.2f}>"
