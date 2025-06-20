@@ -1,7 +1,5 @@
 import os
-
 import sqlite3
-
 
 class BaseDataAccess:
     def __init__(self, db_connection_str: str = None):
@@ -13,7 +11,8 @@ class BaseDataAccess:
             self.__db_connection_str = db_connection_str
 
     def _connect(self):
-        return sqlite3.connect(self.__db_connection_str, detect_types=sqlite3.PARSE_DECLTYPES)
+        # ✅ Fix: removed detect_types to avoid datetime conversion crash
+        return sqlite3.connect(self.__db_connection_str)
 
     def fetchone(self, sql: str, params: tuple | None = ()):
         with self._connect() as conn:
