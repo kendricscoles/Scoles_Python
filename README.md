@@ -1,4 +1,4 @@
-# KN-Python
+# KS-Python
 Team-A6 | Hotel Reservation System
 
 ## Author
