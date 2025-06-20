@@ -11,7 +11,7 @@ class BaseDataAccess:
             self.__db_connection_str = db_connection_str
 
     def _connect(self):
-        # ✅ Fix: removed detect_types to avoid datetime conversion crash
+        
         return sqlite3.connect(self.__db_connection_str)
 
     def fetchone(self, sql: str, params: tuple | None = ()):
