@@ -9,7 +9,15 @@ Kendric ScolesFHNW - Bachelor in Business Artificial IntelligenceCourse: Anwendu
 
 ## Ressourcen
 
+Deepnote Link:
+
 [https://deepnote.com/workspace/Fachhochschule-Nordwestschweiz-Bachelor-Business-AI-8a7f9eed-981d-4902-9a28-e7a9a4e7820c/project/AnwendungsentwicklungmitPythonScolesLardinois-Duplicate-87d0d38b-da6f-4a15-8815-f6371a6d7983/notebook/Notebook-1-08f61a8664af47b4b24dfbb243c4cea2](https://deepnote.com/workspace/Fachhochschule-Nordwestschweiz-Bachelor-Business-AI-8a7f9eed-981d-4902-9a28-e7a9a4e7820c/project/AnwendungsentwicklungmitPythonScolesLardinois-Duplicate-87d0d38b-da6f-4a15-8815-f6371a6d7983/notebook/HotelUserStories-08f61a8664af47b4b24dfbb243c4cea2)
+
+
+YouTube presentation Link:
+
+https://youtu.be/tnHrwToQCfA
+
 
 📚 Project Overview
 
